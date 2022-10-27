@@ -169,7 +169,7 @@ for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
 
         if idx % config.save_step == 0 and idx > 0:
             paddle.save(model.state_dict(),
-                        'save_model/save_steps{}_{:.5f}_{:5f}.model'.format(idx, result_dict_ann['pnr'],
+                        '{}/save_steps{}_{:.5f}_{:5f}.model'.format(config.save_model_path, idx, result_dict_ann['pnr'],
                                                                             result_dict_click['pnr'])
                         )
     idx += 1
