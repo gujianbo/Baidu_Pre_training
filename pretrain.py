@@ -28,6 +28,10 @@ paddle.set_device("gpu:0")
 paddle.seed(config.seed)
 print(config)
 # load dataset
+print("config.train_datadir:", config.train_datadir)
+print("config.valid_annotate_path:", config.valid_annotate_path)
+print("config.valid_click_path:", config.valid_click_path)
+
 train_dataset = TrainDataset(config.train_datadir, max_seq_len=config.max_seq_len, buffer_size=config.buffer_size)
 train_data_loader = DataLoader(train_dataset, batch_size=config.train_batch_size)
 vaild_annotate_dataset = TestDataset(config.valid_annotate_path, max_seq_len=config.max_seq_len, data_type='annotate')
@@ -44,7 +48,7 @@ model = TransformerModel(
     dropout=config.dropout,
     mode='pretrain'
 )
-# load pretrained model
+
 # load pretrained model
 if config.init_parameters != "":
     print('load warm up model ', config.init_parameters)

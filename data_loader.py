@@ -92,9 +92,9 @@ def process_data(query, title, content, max_seq_len):
     segment = segment + [1] * (len(content.split(b'\x01')) + 1)
 
     # padding
-    padding_mask = [False] * len(data)
+    padding_mask = [True] * len(data)
     if len(data) < max_seq_len:
-        padding_mask += [True] * (max_seq_len - len(data))
+        padding_mask += [False] * (max_seq_len - len(data))
         data += [config._PAD_] * (max_seq_len - len(data))
     else:
         padding_mask = padding_mask[:max_seq_len]
