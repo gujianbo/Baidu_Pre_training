@@ -85,6 +85,8 @@ criterion = nn.BCEWithLogitsLoss()
 
 idx = 0
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
+    print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
+          "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
     model.train()
     optimizer.clear_grad()
     masked_src_input, mask_label = mask_data(src_input)
