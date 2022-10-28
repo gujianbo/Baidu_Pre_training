@@ -200,7 +200,7 @@ class TestDataset(Dataset):
 
     def load_click_data(self, fpath):
         print('load logged click data from ', fpath)
-        with gzip.open(fpath, 'rb') as f:
+        with open(fpath, 'rb') as f:
             buffer = []
             total_qids = []
             total_labels = []

@@ -87,6 +87,7 @@ start_time = time.time()
 criterion = nn.BCEWithLogitsLoss()
 
 idx = 0
+# print("train_dataset.len:", len(train_dataset))
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
     # print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
     #       "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
