@@ -87,12 +87,12 @@ idx = 0
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
     print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
           "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
-    print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
-          "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
+    # print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
+    #       "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
     model.train()
     optimizer.clear_grad()
     masked_src_input, mask_label = mask_data(src_input)
-    print("masked_src_input:", masked_src_input[:2], "mask_label:", mask_label[:2])
+    # print("masked_src_input:", masked_src_input[:2], "mask_label:", mask_label[:2])
     score, mlm_loss = model(
         src=masked_src_input,  # mask data
         src_segment=src_segment,
