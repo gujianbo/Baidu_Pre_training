@@ -20,7 +20,7 @@ from args import config
 import numpy as np
 
 
-os.environ['FLAGS_use_cuda_managed_memory'] = "false"
+# os.environ['FLAGS_use_cuda_managed_memory'] = "false"
 
 # control seed
 # 生成随机数，以便固定后续随机数，方便复现代码
