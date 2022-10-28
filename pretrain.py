@@ -88,8 +88,8 @@ criterion = nn.BCEWithLogitsLoss()
 
 idx = 0
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
-    print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
-          "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
+    # print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
+    #       "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
     # print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
     #       "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
     model.train()
@@ -102,7 +102,7 @@ for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
         src_padding_mask=src_padding_mask,
         mlm_label=mask_label,
     )
-    print("score:", score[:2], "mlm_loss:", mlm_loss[:2])
+    # print("score:", score[:2], "mlm_loss:", mlm_loss[:2])
     mlm_loss = paddle.mean(mlm_loss)
     # click_label = click_label.cuda()
     ctr_loss = criterion(score, paddle.to_tensor(click_label, dtype=paddle.float32))
