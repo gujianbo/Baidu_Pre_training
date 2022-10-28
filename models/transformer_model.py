@@ -119,22 +119,22 @@ class TransformerModel(nn.Layer):
         token_emb = self.token_encoder(src)  # get token embedding
         seg_emb = self.segment_encoder(src_segment)  # get position embedding
         x = token_emb + pos_emb + seg_emb
-        print("x.shape:", x.shape, "x:", x[:2])
+        print("x.shape:", x.shape)
         x = self.norm_layer(x)
         x = self.dropout(x)
         x = x.transpose((1, 0, 2))
-        print("x.shape:", x.shape, "x:", x[:2])
+        print("x.shape:", x.shape)
 
         # TODO: add the mask
         # output = self.transformer_encoder(x, src_padding_mask)
         padding_mask = torch_padding_mask_to_paddle(src_padding_mask, self.n_head)
-        print("padding_mask.shape:", padding_mask.shape, "padding_mask:", padding_mask[:2])
+        print("padding_mask.shape:", padding_mask.shape)
         # ipdb.set_trace()
         output = self.transformer_encoder(x, padding_mask).transpose([1, 2, 0])
-        print("output.shape:", output.shape, "output:", output[:2])
+        print("output.shape:", output.shape)
         X = output[0, :, :]  # [seqlen, bs, 1]
         X = self.dropout(X).transpose([1, 0])
-        print("X.shape:", X.shape, "X:", X[:2])
+        print("X.shape:", X.shape)
 
         if self.mode == 'pretrain':  # for train
             scores = self.decoder(X)

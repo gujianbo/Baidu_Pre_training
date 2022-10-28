@@ -58,7 +58,7 @@ if config.init_parameters != "":
             pass
             print("warning: not loading " + k)
         else:
-            print("loading " + k)
+            print("loading " + k, ":", ptm[k].shape)
             v.set_value(ptm[k])
 
 scheduler = get_linear_schedule_with_warmup(config.lr, config.warmup_steps,
