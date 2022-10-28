@@ -19,6 +19,9 @@ from metrics import evaluate_all_metric
 from args import config
 import numpy as np
 
+
+os.environ['FLAGS_use_cuda_managed_memory'] = "false"
+
 # control seed
 # 生成随机数，以便固定后续随机数，方便复现代码
 sys.path.append(os.getcwd())
