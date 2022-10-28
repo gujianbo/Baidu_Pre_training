@@ -80,7 +80,7 @@ def torch_padding_mask_to_paddle(padding_mask, n_head):
 
 class TransformerModel(nn.Layer):
 
-    def __init__(self, ntoken, hidden, nhead, nlayers, dropout, mode='finetune'):
+    def __init__(self, ntoken, hidden, nhead, nlayers, dropout, mode='finetune', enable_log=0):
         super().__init__()
         print('Transformer is used for {}'.format(mode))
         self.pos_encoder = PositionalEncoding(hidden)
@@ -94,6 +94,10 @@ class TransformerModel(nn.Layer):
         self.n_head = nhead
 
         self.dropout = nn.Dropout(dropout)
+        if enable_log==0:
+            self.enable_log = False
+        else:
+            self.enable_log = True
 
         if mode == 'pretrain':
             self.to_logics = nn.Linear(hidden, ntoken)
@@ -119,35 +123,43 @@ class TransformerModel(nn.Layer):
         token_emb = self.token_encoder(src)  # get token embedding
         seg_emb = self.segment_encoder(src_segment)  # get position embedding
         x = token_emb + pos_emb + seg_emb
-        # print("x.shape:", x.shape)
+        if self.enable_log:
+            print("x.shape:", x.shape)
         x = self.norm_layer(x)
         x = self.dropout(x)
         x = x.transpose((1, 0, 2))
-        # print("x.shape:", x.shape)
+        if self.enable_log:
+            print("x.shape:", x.shape)
 
         # TODO: add the mask
         # output = self.transformer_encoder(x, src_padding_mask)
         padding_mask = torch_padding_mask_to_paddle(src_padding_mask, self.n_head)
-        # print("padding_mask.shape:", padding_mask.shape)
+        if self.enable_log:
+            print("padding_mask.shape:", padding_mask.shape)
         # ipdb.set_trace()
         output = self.transformer_encoder(x, padding_mask).transpose([1, 2, 0])
-        # print("output.shape:", output.shape)
+        if self.enable_log:
+            print("output.shape:", output.shape)
         X = output[0, :, :]  # [seqlen, bs, 1]
         X = self.dropout(X).transpose([1, 0])
-        # print("X.shape:", X.shape)
+        if self.enable_log:
+            print("X.shape:", X.shape)
 
         if self.mode == 'pretrain':  # for train
             scores = self.decoder(X)
             scores = paddle.squeeze(scores, axis=-1)
-            # print("scores.shape:", scores.shape, "scores:", scores[:2])
+            if self.enable_log:
+                print("scores.shape:", scores.shape, "scores:", scores[:2])
             if self.training:
                 logits = self.to_logics(output.transpose([2, 0, 1]))  # shape = [bs, seq_len, num_tokens]
-                # print("logits.shape:", logits.shape, "logits:", logits[:2])
+                if self.enable_log:
+                    print("logits.shape:", logits.shape, "logits:", logits[:2])
                 mlm_loss = F.cross_entropy(logits,  # shape=[bs, num_class, seq_len]\
                                            paddle.to_tensor(mlm_label, paddle.int64), \
                                            ignore_index=config._PAD_  # _pad
                                            )
-                # print("mlm_loss.shape:", mlm_loss.shape, "mlm_loss:", mlm_loss[:2])
+                if self.enable_log:
+                    print("mlm_loss.shape:", mlm_loss.shape, "mlm_loss:", mlm_loss[:2])
                 return scores, mlm_loss
             else:
                 return scores

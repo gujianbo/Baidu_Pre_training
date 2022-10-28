@@ -49,6 +49,7 @@ parser.add_argument("--evaluate_model_path", type=str, default='', help="The pat
 parser.add_argument("--result_path", type=str, default='result.csv', help="The path of saving submitting results.")
 parser.add_argument("--finetune_epoch", type=int, default=20, help="finetune epoch")
 parser.add_argument("--save_model_path", type=str, default='.', help="save_model_path")
+parser.add_argument("--enable_log", type=int, default=0, help="enable_log")
 
 config = parser.parse_args()
 

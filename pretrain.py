@@ -49,7 +49,8 @@ model = TransformerModel(
     nhead=config.nhead,
     nlayers=config.nlayers,
     dropout=config.dropout,
-    mode='pretrain'
+    mode='pretrain',
+    enable_log=config.enable_log
 )
 
 # load pretrained model
