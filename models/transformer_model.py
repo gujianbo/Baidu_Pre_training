@@ -94,7 +94,7 @@ class TransformerModel(nn.Layer):
         self.n_head = nhead
 
         self.dropout = nn.Dropout(dropout)
-        if enable_log==0:
+        if enable_log == 0:
             self.enable_log = False
         else:
             self.enable_log = True
@@ -135,7 +135,7 @@ class TransformerModel(nn.Layer):
         # output = self.transformer_encoder(x, src_padding_mask)
         padding_mask = torch_padding_mask_to_paddle(src_padding_mask, self.n_head)
         if self.enable_log:
-            print("padding_mask.shape:", padding_mask.shape)
+            print("padding_mask.shape:", padding_mask.shape, "padding_mask:", padding_mask[:2])
         # ipdb.set_trace()
         output = self.transformer_encoder(x, padding_mask).transpose([1, 2, 0])
         if self.enable_log:

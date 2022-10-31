@@ -90,10 +90,11 @@ criterion = nn.BCEWithLogitsLoss()
 idx = 0
 # print("train_dataset.len:", len(train_dataset))
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
-    # print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
-    #       "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
-    # print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
-    #       "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
+    if config.enable_log == 1:
+        print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
+              "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
+        print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
+              "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
     model.train()
     optimizer.clear_grad()
     masked_src_input, mask_label = mask_data(src_input)
