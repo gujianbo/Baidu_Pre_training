@@ -94,6 +94,7 @@ class TransformerModel(nn.Layer):
         self.n_head = nhead
 
         self.dropout = nn.Dropout(dropout)
+        self.log_level = log_level
 
         if mode == 'pretrain':
             self.to_logics = nn.Linear(hidden, ntoken)
