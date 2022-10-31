@@ -50,7 +50,7 @@ model = TransformerModel(
     nlayers=config.nlayers,
     dropout=config.dropout,
     mode='pretrain',
-    enable_log=config.enable_log
+    log_level=config.log_level
 )
 
 # load pretrained model
@@ -90,9 +90,10 @@ criterion = nn.BCEWithLogitsLoss()
 idx = 0
 # print("train_dataset.len:", len(train_dataset))
 for src_input, src_segment, src_padding_mask, click_label in train_data_loader:
-    if config.enable_log == 1:
+    if config.log_level >= 1:
         print("src_input.shape:", src_input.shape, "src_segment.shape:", src_segment.shape,
               "src_padding_mask.shape:", src_padding_mask.shape, "click_label.shape:", click_label.shape)
+    if config.log_level >= 2:
         print("src_input:", src_input[:2], "src_segment:", src_segment[:2],
               "src_padding_mask:", src_padding_mask[:2], "click_label:", click_label[:2])
     model.train()
